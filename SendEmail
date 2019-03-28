@@ -1,0 +1,31 @@
+//method that sends email
+
+    public boolean isSendEmail(EditText receipient_email, EditText carbon_copy, String email_subject, String email_content){
+    
+        Log.i("SendEmail","Initiate - Temporary password to be sent to email initiated");
+        boolean sendEmailStatus = false ;
+        EditText[] TO = {receipient_email};
+        EditText [] CC = {receipient_email};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        //Set data into emailIntent
+        emailIntent.setData(Uri.parse("mailTo:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT,email_subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT,email_content);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("SendEmail","Status - Temporary password sent to email successfully");
+            sendEmailStatus = true;
+        }catch (android.content.ActivityNotFoundException ex){
+            Toast.makeText(MainActivity.this,"Unable to send email. (Developer Error 101)", Toast.LENGTH_LONG);
+            sendEmailStatus = false;
+
+        }
+
+        return sendEmailStatus;
+  }
